@@ -17,17 +17,17 @@ func NewClient() *Client {
 	return &Client{httpClient: http.Client{}}
 }
 
-
 func (c *Client) GetWeather() (NasaResponse, error) {
-	apiKey := os.Getenv("API_Key")
-	url := fmt.Sprintf("%s/%s&%s",BaseUrl,apiKey,"feedtype=json&ver=1.0")
-	
-	req, err := http.NewRequest("GET",url, nil)
+	apiKey := os.Getenv("API_KEY")
+	url := fmt.Sprintf("%s%s&%s", BaseUrl, apiKey, "feedtype=json&ver=1.0")
+	fmt.Printf("URL: %s\n", url)
+
+	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		fmt.Printf("Error creating request: %v\n", err)
 		return NasaResponse{}, err
 	}
-	
+
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
 		fmt.Printf("Error sending request: %v\n", err)
